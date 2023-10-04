@@ -8,8 +8,6 @@ import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
 import Picker from "./components/Picker";
 import Info from "./components/Info";
-import getConfiguration from "./utils/config";
-import log from "./utils/log";
 import { bannerViewed, setBannerViewed } from "./utils/banner";
 
 const { ClipboardItem } = window;
@@ -20,17 +18,6 @@ function App() {
 
   // using this to trigger the useEffect because lazy to think of a better way
   const [rand, setRand] = useState(0);
-  useEffect(() => {
-    try {
-      const data = async () => {
-        const res = await getConfiguration();
-        setConfig(res);
-      };
-      data();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [rand]);
 
   const [infoOpen, setInfoOpen] = useState(false);
 
@@ -134,7 +121,6 @@ function App() {
     link.download = `${characters[character].name}_st.ayaka.one.png`;
     link.href = canvas.toDataURL();
     link.click();
-    await log(characters[character].id, characters[character].name, "download");
     setRand(rand + 1);
   };
 
@@ -162,7 +148,6 @@ function App() {
         "image/png": b64toBlob(canvas.toDataURL().split(",")[1]),
       }),
     ]);
-    await log(characters[character].id, characters[character].name, "copy");
     setRand(rand + 1);
   };
 
